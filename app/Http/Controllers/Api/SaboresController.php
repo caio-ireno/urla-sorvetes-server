@@ -18,9 +18,9 @@ class SaboresController extends Controller{
    
     public function index(Sorvete $sorvete = null){
     if ($sorvete) {
-        return $sorvete->sabores;
+        return $sorvete->sabores()->paginate(10);
     } else {
-        return Sabores::all();
+        return Sabores::paginate(10);
     }
 }
 
