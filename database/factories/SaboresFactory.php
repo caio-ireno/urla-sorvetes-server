@@ -15,7 +15,7 @@ class SaboresFactory extends Factory
         return [
             'nome' => $this->faker->words(3,true),
             'descricao' => $this->faker->words(3,true),
-            'imagem' => $this->faker->words(3,true),
+            'imagem' => $this->faker->imageUrl($width = 640, $height = 480),
             'sorvete_id' => $this->faker->randomDigitNot(2),
 
         ];

@@ -17,7 +17,11 @@ class LojaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nomeLoja' => $this->faker->words(3,true),
+            'endereço' => $this->faker->words(3,true),
+            'imgLoja' => $this->faker->imageUrl($width = 640, $height = 480),
+            'rota' => $this->faker->url,
+            'telefone' => $this->faker->phoneNumber,
         ];
     }
 }
