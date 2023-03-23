@@ -21,7 +21,7 @@ class LojaController extends Controller
         return $this ->loja->get();
     }
 
-    public function show($id){
+    public function show(Loja $loja){
         // Retorna os detalhes de uma loja específica
         return $loja;
     }
@@ -32,13 +32,13 @@ class LojaController extends Controller
       
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, Loja $loja){
         // Atualiza os dados de uma loja existente
         $loja->update($request ->all());
         return $loja;
     }
 
-    public function destroy($id){
+    public function destroy(Loja $loja){
         // Exclui uma loja existente
         return $loja ->delete();
     }
