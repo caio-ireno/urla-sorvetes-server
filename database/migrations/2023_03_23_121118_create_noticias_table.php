@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('noticias', function (Blueprint $table) {
             $table->id();
             $table->string('nomeNoticia');
-            $table->binary('imgNoticia');
+            $table->string('imgNoticia')->nullable();
             $table->timestamps();
         });
     }
