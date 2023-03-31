@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
+use App\Http\Requests\ImageRequest;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Noticia;
 use GuzzleHttp\Client;
-
-
+use Symfony\Component\HttpFoundation\Response;
 
 class NoticiaController extends Controller
 {
@@ -28,28 +28,41 @@ class NoticiaController extends Controller
         return $noticia;
     }
 
-    public function store(Request $request){
-        // Cria uma nova Noticia
-        $client = new Client();
-        $response = $client->post('https://api.imgbb.com/1/upload', [
-            'multipart' => [
-                [
-                    'name' => 'image',
-                    'contents' => fopen($request->file('imgNoticia')->getPathname(), 'r'),
+    public function store(ImageRequest $request){
+       
+        $file = $request->file('imgNoticia');
+        // dd($file);
+        if ($file) {
+           try{ 
+            $client = new Client();
+            $response = $client->post('https://api.imgbb.com/1/upload', [
+                'multipart' => [
+                    [
+                        'name' => 'image',
+                        'contents' => fopen($request->file('imgNoticia')->getPathname(), 'r'),
+                    ],
+                    [
+                        'name' => 'key',
+                        'contents' => env('IMGBB_API_KEY'),
+                    ],
                 ],
-                [
-                    'name' => 'key',
-                    'contents' => env('IMGBB_API_KEY'),
-                ],
-            ],
-        ]);
-        $data = json_decode($response->getBody(), true);
-        $noticia = new Noticia([
-            'imgNoticia' => $data['data']['url'],
-            'nomeNoticia' => $request->input('nomeNoticia'),
-        ]);
-        $noticia->save();
-        return response()->json(['message' => 'Noticia criada com sucesso!', 'noticia' => $noticia], 201);
+            ]);
+            $data = json_decode($response->getBody(), true);
+            $noticia = new Noticia([
+                'imgNoticia' => $data['data']['url'],
+                'nomeNoticia' => $request->input('nomeNoticia'),
+            ]);
+            $noticia->save();
+            
+            return response()->json(['message' => 'Noticia criada com sucesso!', 'noticia' => $noticia], 201);
+        }
+            catch(\Exception $e){
+                return response()->json(['message' => 'Erro ao criar notícia: '.$e->getMessage()], 500);
+            }
+
+        }
+    
+    
     }
 
     public function update(Request $request,  Noticia $noticia){

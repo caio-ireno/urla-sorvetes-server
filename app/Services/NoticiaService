@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Noticia;
+
+class NoticiaService
+{
+    public function createImage($file)
+    {
+        $image_path = $file->store('image', 'public');
+        $image = Image::create([
+            'image' => $image_path,
+        ]);
+        return $image;
+    }
+}

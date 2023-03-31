@@ -18,7 +18,8 @@ class NoticiaFactory extends Factory
     {
         return [
             'nomeNoticia' => $this->faker->words(3,true),
-
+            'imgNoticia' => $this->faker->words(3,true),
+            
         ];
     }
 }
