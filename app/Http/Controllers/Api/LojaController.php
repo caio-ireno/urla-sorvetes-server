@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 use App\Models\Loja;
+
 
 
 class LojaController extends Controller
@@ -27,8 +29,40 @@ class LojaController extends Controller
     }
 
     public function store(Request $request){
-        // Cria uma nova loja
-        return $this-> loja->create($request ->all()); 
+        $file = $request->file('imgLoja');
+        // dd($file);
+        if ($file) {
+           try{ 
+            $client = new Client();
+            $response = $client->post('https://api.imgbb.com/1/upload', [
+                'multipart' => [
+                    [
+                        'name' => 'image',
+                        'contents' => fopen($request->file('imgLoja')->getPathname(), 'r'),
+                    ],
+                    [
+                        'name' => 'key',
+                        'contents' => env('IMGBB_API_KEY'),
+                    ],
+                ],
+            ]);
+            $data = json_decode($response->getBody(), true);
+            $loja = new Loja([
+                'imgLoja' => $data['data']['url'],
+                'nomeLoja' => $request->input('nomeLoja'),
+                'endereço' => $request->input('endereço'),
+                'telefone' => $request->input('telefone'),
+                'rota' => $request->input('rota'),
+            ]);
+            $loja->save();
+            
+            return response()->json(['message' => 'Loja criada com sucesso!', 'loja' => $loja], 201);
+        }
+            catch(\Exception $e){
+                return response()->json(['message' => 'Erro ao criar loja: '.$e->getMessage()], 500);
+            }
+
+        }
       
     }
 

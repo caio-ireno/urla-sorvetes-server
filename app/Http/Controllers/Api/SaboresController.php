@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+use App\Http\Requests\SorveteRequest;
 
+use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Sabores;
 use App\Models\Sorvete;
+use GuzzleHttp\Client;
 
 
 class SaboresController extends Controller{
@@ -25,9 +28,42 @@ class SaboresController extends Controller{
 }
 
    
-    public function store(Request $request)
+    public function store(SorveteRequest $request)
     {
-        return $this-> sabores->create($request ->all());
+        $file = $request->file('imagem');
+        // dd($file);
+        if ($file) {
+           try{ 
+            $client = new Client();
+            $response = $client->post('https://api.imgbb.com/1/upload', [
+                'multipart' => [
+                    [
+                        'name' => 'image',
+                        'contents' => fopen($request->file('imagem')->getPathname(), 'r'),
+                    ],
+                    [
+                        'name' => 'key',
+                        'contents' => env('IMGBB_API_KEY'),
+                    ],
+                ],
+            ]);
+            $data = json_decode($response->getBody(), true);
+            $sabores = new Sabores([
+                'imagem' => $data['data']['url'],
+                'nome' => $request->input('nome'),
+                'descricao' => $request->input('descricao'),
+                'sorvete_id' => $request->input('sorvete_id'),
+            ]);
+            $sabores->save();
+            
+            return response()->json(['message' => 'Sabor criada com sucesso!', 'sabores' => $sabores], 201);
+        }
+            catch(\Exception $e){
+                return response()->json(['message' => 'Erro ao criar sorvete: '.$e->getMessage()], 500);
+            }
+
+        }
+    
     }
 
    

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Historia extends Model
 {
+    protected $fillable = ['textoHistoriaPage','textoHistoriaHome'];
     use HasFactory;
-    protected $fillable = ['texto'];
 }

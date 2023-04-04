@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Loja extends Model
 {
-    protected $fillable = ['nomeLoja', 'endereco', 'telefone', 'imgLoja', 'rota'];
+    protected $fillable = ['nomeLoja', 'endereço', 'telefone', 'imgLoja', 'rota'];
 
     use HasFactory;
 }

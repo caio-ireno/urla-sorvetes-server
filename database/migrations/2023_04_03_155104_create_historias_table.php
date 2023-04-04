@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('historias', function (Blueprint $table) {
             $table->id();
-            $table->text('texto');
+            $table->text('textoHistoriaPage');
+            $table->text('textoHistoriaHome');
             $table->timestamps();
         });
     }

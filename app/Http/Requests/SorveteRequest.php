@@ -22,8 +22,10 @@ class SorveteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'imgNoticia' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            // 'nomeNoticia' => 'required|string|max:255',
+            'imagem' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'nome' => 'required|string',
+            'descricao' => 'required|string',
+            'sorvete_id' => 'required|string',
         ];
     }
 }

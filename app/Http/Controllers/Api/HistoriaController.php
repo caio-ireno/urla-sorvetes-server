@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Historia;
+use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 
 class HistoriaController extends Controller
@@ -24,18 +26,19 @@ class HistoriaController extends Controller
         return $historia;
     }
 
-    public function store(Request $request){
-        // Cria uma nova historia
+    public function store(Request $request)
+    {
         return $this-> historia->create($request ->all()); 
-      
+    
     }
 
-    public function update(Request $request, Historia $historia){
-        // Atualiza os dados de uma historia existente
+    public function update(Request $request, Historia $historia)
+    {
         $historia->update($request ->all());
         return $historia;
     }
-
+    
+    
     public function destroy(Historia $historia){
         // Exclui uma historia existente
         return $historia ->delete();
