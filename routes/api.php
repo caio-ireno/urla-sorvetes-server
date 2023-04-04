@@ -22,6 +22,7 @@ Route::apiResource('sorvetes',\App\Http\Controllers\Api\SorveteController::class
 Route::apiResource('lojas',\App\Http\Controllers\Api\LojaController::class);
 Route::apiResource('noticias',\App\Http\Controllers\Api\NoticiaController::class);
 Route::apiResource('historias',\App\Http\Controllers\Api\HistoriaController::class);
+Route::apiResource('contatos',\App\Http\Controllers\Api\ContatoController::class);
 
 Route::apiResource('/sabores', \App\Http\Controllers\Api\SaboresController::class);
 Route::apiResource('sorvetes.sabores',\App\Http\Controllers\Api\SaboresController::class);

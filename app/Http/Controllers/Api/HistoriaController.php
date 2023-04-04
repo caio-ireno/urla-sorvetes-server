@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Historia;
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
 
 
 class HistoriaController extends Controller
