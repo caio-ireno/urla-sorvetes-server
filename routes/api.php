@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('sorvetes',\App\Http\Controllers\Api\SorveteController::class)->only([  'index','show']);
+    Route::apiResource('sorvetes',\App\Http\Controllers\Api\SorveteController::class)->only([  'index','show']);
     Route::apiResource('lojas',\App\Http\Controllers\Api\LojaController::class)->only(['index','show']);
     Route::apiResource('noticias',\App\Http\Controllers\Api\NoticiaController::class)->only([  'index','show']);
     Route::apiResource('historias',\App\Http\Controllers\Api\HistoriaController::class)->only(['index','show']);
@@ -29,14 +29,14 @@ Route::apiResource('sorvetes',\App\Http\Controllers\Api\SorveteController::class
 
 // Rotas autenticadas
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('sorvetes',\App\Http\Controllers\Api\SorveteController::class);
-    Route::apiResource('lojas',\App\Http\Controllers\Api\LojaController::class);
-    Route::apiResource('noticias',\App\Http\Controllers\Api\NoticiaController::class);
-    Route::apiResource('historias',\App\Http\Controllers\Api\HistoriaController::class);
-    Route::apiResource('contatos',\App\Http\Controllers\Api\ContatoController::class);
+    Route::apiResource('sorvetes',\App\Http\Controllers\Api\SorveteController::class)->except(['index', 'show']);;
+    Route::apiResource('lojas',\App\Http\Controllers\Api\LojaController::class)->except(['index', 'show']);;
+    Route::apiResource('noticias',\App\Http\Controllers\Api\NoticiaController::class)->except(['index', 'show']);;
+    Route::apiResource('historias',\App\Http\Controllers\Api\HistoriaController::class)->except(['index', 'show']);;
+    Route::apiResource('contatos',\App\Http\Controllers\Api\ContatoController::class)->except(['index', 'show']);;
 
-    Route::apiResource('/sabores', \App\Http\Controllers\Api\SaboresController::class);
-    Route::apiResource('sorvetes.sabores',\App\Http\Controllers\Api\SaboresController::class);
+    Route::apiResource('/sabores', \App\Http\Controllers\Api\SaboresController::class)->except(['index', 'show']);;
+    Route::apiResource('sorvetes.sabores',\App\Http\Controllers\Api\SaboresController::class)->except(['index', 'show']);;
 });
 
 Route::prefix('auth')->group(function(){
