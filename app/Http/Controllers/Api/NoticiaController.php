@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\Noticia;
 use GuzzleHttp\Client;
 
+use App\Http\Requests\ImageResquest;
+
 class NoticiaController extends Controller
 {
 
@@ -65,11 +67,10 @@ class NoticiaController extends Controller
     
     }
 
-    public function update(Request $request, Noticia $noticia)
-{
-    $file = $request->hasFile('imgNoticia');
-    
-    if ($file) {
+    public function update(Request $request, Noticia $noticia){
+     $file = $request->hasFile('imgNoticia');
+    dd($request->all());
+        if ($file) {
         try {
             $client = new Client();
             $response = $client->post('https://api.imgbb.com/1/upload', [

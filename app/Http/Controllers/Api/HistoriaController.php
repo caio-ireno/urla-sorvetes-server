@@ -25,14 +25,12 @@ class HistoriaController extends Controller
         return $historia;
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         return $this-> historia->create($request ->all()); 
     
     }
 
-    public function update(Request $request, Historia $historia)
-    {
+    public function update(Request $request, Historia $historia){
         $historia->update($request ->all());
         return $historia;
     }
