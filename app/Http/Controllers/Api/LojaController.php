@@ -72,8 +72,26 @@ class LojaController extends Controller
         return $loja;
     }
 
-    public function destroy(Loja $loja){
-        // Exclui uma loja existente
-        return $loja ->delete();
+    public function destroy($id){
+        $loja = Loja::find($id);
+    
+        if (!$loja) {
+            return response()->json(['message' => 'Loja não encontrada.'], 404);
+        }
+    
+        // Deleta a imagem do ImgBB
+        $imgUrl = $loja->imgLoja;
+        $apiKey = env('IMGBB_API_KEY');
+        $client = new Client();
+        $response = $client->delete("https://api.imgbb.com/1/delete?url=$imgUrl&key=$apiKey");
+    
+        if ($response->getStatusCode() != 200) {
+            return response()->json(['message' => 'Erro ao excluir imagem no ImgBB.'], 500);
+        }
+    
+        // Deleta a loja do banco de dados
+        $loja->delete();
+        return response()->json(['message' => 'Loja excluída com sucesso!']);
     }
+    
 }
