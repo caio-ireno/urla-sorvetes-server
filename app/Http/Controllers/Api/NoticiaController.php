@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\ImageRequest;
-
-use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Noticia;
 use GuzzleHttp\Client;
 
-use App\Http\Requests\ImageResquest;
 
 class NoticiaController extends Controller
 {
@@ -63,13 +59,14 @@ class NoticiaController extends Controller
 
                 return response()->json(['message' => 'Noticia criada com sucesso!', 'noticia' => $noticia], 201);
             } catch (\Exception $e) {
-                return response()->json(['message' => 'Erro ao criar notícia: ' . $e->getMessage()], 500);
+                return response()->json(['message' => 'Erro ao criar noticia: ' . $e->getMessage()], 500);
             }
         }
     }
 
     public function update(Request $request, Noticia $noticia)
     {
+
         $file = $request->input('imgNoticia');
         if ($file) {
             try {
